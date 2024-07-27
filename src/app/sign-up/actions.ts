@@ -45,7 +45,8 @@ export async function signUp(formData: FormData) {
 
     if (error) {
         console.error(error)
-        return redirect('/error');
+        return { error: error.message }
+
     } else {
         console.log(data)
         return { message: 'OTP sent' }
@@ -73,9 +74,9 @@ export async function verifyOtp(formData: FormData) {
 
     if (error) {
         console.error(error)
-        redirect('/error');
+        return { error: error.message }
     } else {
         console.log(session)
-        redirect("/");
+        redirect('/')
     }
 }
