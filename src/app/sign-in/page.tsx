@@ -55,9 +55,6 @@ export default function SignInPage() {
                     if (otpSent) {
                         console.log('verifying otp')
                         const res = await verifyOtp(formData);
-                        if (res) {
-                            setLoggedIn(true);
-                        }
   
                     } else {
                         try {
