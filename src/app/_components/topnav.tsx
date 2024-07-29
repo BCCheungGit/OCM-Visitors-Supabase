@@ -42,7 +42,7 @@ export function TopNav() {
                 </h2>
             </div>
             <div className="flex justify-end gap-4 items-center w-1/4">
-                {!currentUser ? <Button onClick={() => router.push('/sign-in')}>Sign In</Button> : <Button onClick={async () => {z
+                {!currentUser ? <Button onClick={() => router.push('/sign-in')}>Sign In</Button> : <Button onClick={async () => {
                     const { error } = await supabaseClient.auth.signOut();
                     if (error) {
                         console.error('Error signing out', error);
