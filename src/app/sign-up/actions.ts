@@ -7,6 +7,8 @@ import { createClient } from "../../../utils/supabase/server";
 import { VerifyOtpParams } from "@supabase/supabase-js";
 
 
+
+
 export async function signUp(formData: FormData) {
 
     const supabase = createClient();
@@ -49,6 +51,7 @@ export async function signUp(formData: FormData) {
 
     } else {
         console.log(data)
+
         return { message: 'OTP sent' }
     }
 
@@ -63,14 +66,15 @@ export async function verifyOtp(formData: FormData) {
         otp: formData.get('otp') as string,
     }
 
+    console.log(formData)
 
     const formattedPhone = data.phone.startsWith('+') ? data.phone : "+" + data.phone;
+    
     const {data: session, error } = await supabase.auth.verifyOtp({
         phone: formattedPhone,
         token: data.otp,
         type: 'sms',
     } as VerifyOtpParams);
-    
 
     if (error) {
         console.error(error)

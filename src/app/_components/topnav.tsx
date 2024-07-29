@@ -1,10 +1,32 @@
-
+"use client";
 import Image from "next/image";
 import { Button } from "@/components/ui/button";
-
+import { createClient } from "../../../utils/supabase/client";
+import { useState, useEffect } from 'react';
+import { User } from '@supabase/supabase-js';
+import { useRouter } from "next/navigation";
 
 
 export function TopNav() {
+    const supabaseClient = createClient();
+
+    const router = useRouter();
+
+    const [currentUser, setCurrentUser] = useState<User | null>(null);
+
+    useEffect(() => {
+        async function checkUser() {
+            const { data: { user } } = await supabaseClient.auth.getUser();
+
+            if (user) {
+                setCurrentUser(user);
+            }
+        }
+        checkUser();
+    }, [])
+
+
+
     return (
         <nav className="flex items-center justify-between w-full p-4 sm:text-xl text-base font-semibold border-b">
             <div className="flex items-center w-1/4">
@@ -20,10 +42,14 @@ export function TopNav() {
                 </h2>
             </div>
             <div className="flex justify-end gap-4 items-center w-1/4">
-                {/* <SignedIn>
-                    <SignOutButton><Button className="sm:inline hidden">Sign Out</Button></SignOutButton>
-                    <UserButton />
-                </SignedIn> */}
+                {!currentUser ? <Button onClick={() => router.push('/sign-in')}>Sign In</Button> : <Button onClick={async () => {z
+                    const { error } = await supabaseClient.auth.signOut();
+                    if (error) {
+                        console.error('Error signing out', error);
+                    } else {
+                        setCurrentUser(null);
+                    }
+                }}>Sign Out</Button>}
             </div>
         </nav>
     )
