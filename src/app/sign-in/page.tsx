@@ -47,7 +47,7 @@ export default function SignInPage() {
 
     return (
         <>
-
+        <TopNav />
         <div className="min-w-screen flex flex-row justify-center items-center h-full">
             <div className="w-fit flex mt-10 flex-col items-center border-2 p-4 gap-4 rounded-lg shadow-xl">
                 <h1 className="sm:text-xl text-lg font-semibold">Sign In</h1>
@@ -98,7 +98,7 @@ export default function SignInPage() {
  {!otpSent && (
                 <div className="flex flex-col gap-6">
             <div>
-                <label htmlFor="phone" className="sm:text-base text-sm" aria-required>Phone Number</label>
+                <label htmlFor="phone" className="sm:text-sm text-xs" aria-required>Phone Number 電話號碼</label>
                 <PhoneInput placeholder="Enter Phone Number" name="phone" />
             </div>
             <Button type="submit">Sign In</Button>
@@ -128,6 +128,12 @@ export default function SignInPage() {
                     )}
 
                 </form>
+                <div className="p-2 border-2 rounded-lg shadow-lg h-full flex flex-row items-center justify-center gap-4 w-full">
+                <p className="text-sm">First time? 新訪客？</p>
+                <Link href="/sign-up" className="text-sm text-purple-700 hover:text-purple-100">
+                    Sign Up 註冊
+                </Link>
+                </div>
             </div>
         </div>
 </>

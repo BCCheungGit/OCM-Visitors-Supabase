@@ -48,7 +48,7 @@ export default function SignUpPage() {
     return (
         <>
         <TopNav />
-        <div className="min-w-screen flex flex-row justify-center items-center h-full">
+        <div className="min-w-screen flex flex-col justify-center items-center h-full">
             <div className="w-fit flex mt-10 flex-col items-center border-2 p-4 gap-4 rounded-lg shadow-xl">
                 <h1 className="sm:text-xl text-lg font-semibold">Sign Up</h1>
                 <form className="flex flex-col gap-4" action={async (formData) => {
@@ -99,16 +99,16 @@ export default function SignUpPage() {
                 <div className="flex flex-col gap-6">
                 <div className="flex flex-row gap-4" >
                 <div className="flex flex-col">
-                    <label htmlFor="first-name" className="sm:text-base text-sm" aria-required>First Name</label>
+                    <label htmlFor="first-name" className="sm:text-sm text-xs" aria-required>First Name 名字</label>
                     <Input type="text" name="first-name" />
                 </div>
                 <div className="flex flex-col">
-                    <label htmlFor="last-name" className="sm:text-base text-sm" aria-required>Last Name</label>
+                    <label htmlFor="last-name" className="sm:text-sm text-xs" aria-required>Last Name 姓氏</label>
                     <Input type="text" name="last-name" />
                 </div>
             </div>
             <div>
-                <label htmlFor="phone" className="sm:text-base text-sm" aria-required>Phone Number</label>
+                <label htmlFor="phone" className="sm:text-sm text-xs" aria-required>Phone Number 電話號碼</label>
                 <PhoneInput name="phone" placeholder="Enter phone number" />
             </div>
             <Button type="submit">Sign Up</Button>
@@ -138,7 +138,14 @@ export default function SignUpPage() {
                     )}
 
                 </form>
+                <div className="p-2 border-2 rounded-lg shadow-lg h-full flex flex-row items-center justify-center gap-4 w-full">
+                <p className="text-sm">Already have an account? </p>
+                <Link href="/sign-in" className="text-sm text-purple-700 hover:text-purple-100">
+                    Sign In
+                </Link>
+                </div>
             </div>
+
         </div>
         </>
     )
