@@ -81,6 +81,8 @@ export async function verifyOtp(formData: FormData) {
         return { error: error.message }
     } else {
         console.log(session)
-        redirect('/')
+        
+        redirect('/dashboard')
+        
     }
 }

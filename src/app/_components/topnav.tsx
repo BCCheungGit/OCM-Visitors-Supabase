@@ -14,17 +14,22 @@ export function TopNav() {
 
     const [currentUser, setCurrentUser] = useState<User | null>(null);
 
+
     useEffect(() => {
         async function checkUser() {
             const { data: { user } } = await supabaseClient.auth.getUser();
 
             if (user) {
                 setCurrentUser(user);
+            } else {
+                setCurrentUser(null);
             }
         }
-        checkUser();
-    }, [])
 
+         checkUser();
+    }, [supabaseClient])
+
+    console.log(currentUser);
 
 
     return (
@@ -42,13 +47,15 @@ export function TopNav() {
                 </h2>
             </div>
             <div className="flex justify-end gap-4 items-center w-1/4">
-                {!currentUser ? <Button onClick={() => router.push('/sign-in')}>Sign In</Button> : <Button onClick={async () => {
+                {!currentUser ? <div></div> : <Button onClick={async () => {
+                    router.push("/")
                     const { error } = await supabaseClient.auth.signOut();
                     if (error) {
                         console.error('Error signing out', error);
                     } else {
                         setCurrentUser(null);
                     }
+
                 }}>Sign Out</Button>}
             </div>
         </nav>

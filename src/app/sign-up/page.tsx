@@ -1,6 +1,12 @@
 "use client"
 
+import {
+    InputOTP,
+    InputOTPGroup,
+    InputOTPSlot,
+  } from "@/components/ui/input-otp"
 
+import { REGEXP_ONLY_DIGITS } from "input-otp"
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { signUp, verifyOtp } from "./actions";
@@ -10,7 +16,7 @@ import { useToast } from "@/components/ui/use-toast";
 import { ToastAction } from "@/components/ui/toast";
 import Link from "next/link";
 import { createClient } from "../../../utils/supabase/client";
-
+import * as RDNInput from 'react-phone-number-input';
 
 export default function SignUpPage() {
 
@@ -23,7 +29,7 @@ export default function SignUpPage() {
             const { data: { user } } = await supabaseClient.auth.getUser();
 
             if (user) {
-                router.push("/");
+                router.push("/dashboard");
             }
         }
         checkUser();
@@ -32,7 +38,7 @@ export default function SignUpPage() {
 
     const [otpSent, setOtpSent] = useState<boolean>(false);
     const [phoneNumber, setPhoneNumber] = useState<string>('');
-
+    const [otpValue, setOtpValue] = useState<string>("")
 
     const { toast } = useToast();
 
@@ -112,7 +118,16 @@ export default function SignUpPage() {
                             <div>
                                 <Input type="hidden" name="phone" value={phoneNumber} />
                                 <label htmlFor="otp" className="sm:text-base text-sm">OTP</label>
-                                <Input type="text" name="otp" />
+                                <InputOTP name="otp" maxLength={6} pattern={REGEXP_ONLY_DIGITS} value={otpValue} onChange={(value) => setOtpValue(value)}>
+                                    <InputOTPGroup>
+                                        <InputOTPSlot index={0} />
+                                        <InputOTPSlot index={1} />
+                                        <InputOTPSlot index={2} />
+                                        <InputOTPSlot index={3} />
+                                        <InputOTPSlot index={4} />
+                                        <InputOTPSlot index={5} />
+                                    </InputOTPGroup>
+                                    </InputOTP>
                             </div>
                             <Button type="submit">Verify</Button>
                         </div>
