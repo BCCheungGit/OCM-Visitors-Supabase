@@ -17,6 +17,8 @@ import { ToastAction } from "@/components/ui/toast";
 import Link from "next/link";
 import { createClient } from "../../../utils/supabase/client";
 import * as RDNInput from 'react-phone-number-input';
+import { PhoneInput } from "../../components/ui/phoneinput";
+import { TopNav } from "../_components/topnav";
 
 export default function SignUpPage() {
 
@@ -44,6 +46,8 @@ export default function SignUpPage() {
 
 
     return (
+        <>
+        <TopNav />
         <div className="min-w-screen flex flex-row justify-center items-center h-full">
             <div className="w-fit flex mt-10 flex-col items-center border-2 p-4 gap-4 rounded-lg shadow-xl">
                 <h1 className="sm:text-xl text-lg font-semibold">Sign Up</h1>
@@ -105,7 +109,7 @@ export default function SignUpPage() {
             </div>
             <div>
                 <label htmlFor="phone" className="sm:text-base text-sm" aria-required>Phone Number</label>
-                <Input type="text" name="phone" />
+                <PhoneInput name="phone" placeholder="Enter phone number" />
             </div>
             <Button type="submit">Sign Up</Button>
             </div>
@@ -136,6 +140,7 @@ export default function SignUpPage() {
                 </form>
             </div>
         </div>
+        </>
     )
 }
 

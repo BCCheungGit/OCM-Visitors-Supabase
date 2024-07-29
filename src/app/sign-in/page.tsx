@@ -16,6 +16,8 @@ import Link from "next/link";
 import { createClient } from "../../../utils/supabase/client";
 import * as RDNInput from 'react-phone-number-input';
 import { signIn, verifyOtp } from "./actions";
+import { PhoneInput } from "@/components/ui/phoneinput";
+import { TopNav } from "../_components/topnav";
 
 
 export default function SignInPage() {
@@ -24,6 +26,7 @@ export default function SignInPage() {
     const router = useRouter();
 
     const supabaseClient = createClient();
+
 
     useEffect(() => {
         async function checkUser() {
@@ -43,19 +46,25 @@ export default function SignInPage() {
     const { toast } = useToast();
 
     return (
+        <>
+
         <div className="min-w-screen flex flex-row justify-center items-center h-full">
             <div className="w-fit flex mt-10 flex-col items-center border-2 p-4 gap-4 rounded-lg shadow-xl">
                 <h1 className="sm:text-xl text-lg font-semibold">Sign In</h1>
                 <form className="flex flex-col gap-4" action={async (formData) => {
                     if (otpSent) {
                         console.log('verifying otp')
-                        await verifyOtp(formData);
+                        const res = await verifyOtp(formData);
+                        if (res) {
+                            setLoggedIn(true);
+                        }
+  
                     } else {
                         try {
                             console.log('signing up')
                             
                             const result = await signIn(formData);
-                            console.log(result);
+                            // console.log(result);
 
                             if (result.error && result.error === 'User does not exist. Please Sign Up') {  
                                 toast({
@@ -93,7 +102,7 @@ export default function SignInPage() {
                 <div className="flex flex-col gap-6">
             <div>
                 <label htmlFor="phone" className="sm:text-base text-sm" aria-required>Phone Number</label>
-                <Input type="text" name="phone" />
+                <PhoneInput placeholder="Enter Phone Number" name="phone" />
             </div>
             <Button type="submit">Sign In</Button>
             </div>
@@ -124,6 +133,6 @@ export default function SignInPage() {
                 </form>
             </div>
         </div>
-
+</>
     )
 }

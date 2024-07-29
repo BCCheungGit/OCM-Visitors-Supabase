@@ -7,12 +7,15 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { createClient } from "../../utils/supabase/client";
 import { useEffect } from "react";
+import { TopNav } from "./_components/topnav";
 
 export default function Home() {
 
       const router = useRouter();
 
       const supabaseClient = createClient();
+
+
 
       useEffect(() => {
         async function checkUser() {
@@ -26,6 +29,8 @@ export default function Home() {
     }, [])
 
       return (
+        <>
+        <TopNav />
       <div className="flex flex-col min-w-screen items-center justify-start mt-10 gap-4 min-h-screen">
         <div className="w-1/4 min-w-96 items-center justify-center flex flex-col gap-4 border-2 rounded-xl shadow-lg p-4">
         <div className="flex flex-row gap-4 items-center justify-center">
@@ -36,6 +41,7 @@ export default function Home() {
         <Link className="w-full" href="/sign-up"><Button className="w-full">Sign Up as Visitor</Button></Link>
         </div>
       </div>
+    </>
   );
 
 

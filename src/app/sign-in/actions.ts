@@ -12,7 +12,8 @@ export async function signIn(formData: FormData) {
     const inputData = {
         phone: formData.get('phone') as string,
     }
-    const formattedPhone = inputData.phone.startsWith('+') ? inputData.phone : "+" + inputData.phone;
+    const formattedPhone = (inputData.phone.startsWith('+') ? inputData.phone : "+" + inputData.phone).replace(/\s/g, '');
+
 
     const { data: existingUser, error: checkError } = await supabase.from('profiles').select('*').eq('phone', formattedPhone).maybeSingle();
     if (checkError) {
@@ -27,7 +28,7 @@ export async function signIn(formData: FormData) {
             console.error(error)
             return { error: error.message }
         } else {
-            console.log(data)
+            // console.log(data)
             return { message: 'OTP sent' }
         }
     }
@@ -46,7 +47,7 @@ export async function verifyOtp(formData: FormData) {
     }
 
 
-    const formattedPhone = data.phone.startsWith('+') ? data.phone : "+" + data.phone;
+    const formattedPhone = (data.phone.startsWith('+') ? data.phone : "+" + data.phone).replace(/\s/g, '');
     
     const {data: session, error } = await supabase.auth.verifyOtp({
         phone: formattedPhone,
@@ -58,8 +59,7 @@ export async function verifyOtp(formData: FormData) {
         console.error(error)
         return { error: error.message }
     } else {
-        console.log(session)
-        
+        // console.log(session)
         redirect('/dashboard')
         
     }

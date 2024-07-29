@@ -20,7 +20,10 @@ export async function signUp(formData: FormData) {
         phone: formData.get('phone') as string,
     }
 
-    const formattedPhone = inputData.phone.startsWith('+') ? inputData.phone : "+" + inputData.phone;
+    const formattedPhone = (inputData.phone.startsWith('+') ? inputData.phone : "+" + inputData.phone).replace(/\s/g, '');
+
+
+
     const {data: existingUser, error: checkError} = await supabase.from('profiles').select('*').eq('phone', formattedPhone).maybeSingle();
 
 
@@ -68,8 +71,9 @@ export async function verifyOtp(formData: FormData) {
 
     console.log(formData)
 
-    const formattedPhone = data.phone.startsWith('+') ? data.phone : "+" + data.phone;
-    
+    const formattedPhone = (data.phone.startsWith('+') ? data.phone : "+" + data.phone).replace(/\s/g, '');
+
+
     const {data: session, error } = await supabase.auth.verifyOtp({
         phone: formattedPhone,
         token: data.otp,

@@ -2,37 +2,40 @@
 import Image from "next/image";
 import { Button } from "@/components/ui/button";
 import { createClient } from "../../../utils/supabase/client";
-import { useState, useEffect } from 'react';
+import { useState, useEffect, createContext } from 'react';
 import { User } from '@supabase/supabase-js';
 import { useRouter } from "next/navigation";
 
+export const TopNavContext = createContext<boolean>(false);
 
 export function TopNav() {
     const supabaseClient = createClient();
 
+    const [userExists, setUserExists] = useState<boolean>(false);
     const router = useRouter();
 
-    const [currentUser, setCurrentUser] = useState<User | null>(null);
-
-
     useEffect(() => {
-        async function checkUser() {
-            const { data: { user } } = await supabaseClient.auth.getUser();
-
-            if (user) {
-                setCurrentUser(user);
-            } else {
-                setCurrentUser(null);
+        const { data: {subscription}} = supabaseClient.auth.onAuthStateChange((event, session) => {
+            if (event === 'SIGNED_OUT') {
+                setUserExists(false)
+              }
+            if (event === "SIGNED_IN") {
+                setUserExists(true)
+            }
+            if (session) {
+                setUserExists(true)
             }
         }
-
-         checkUser();
+        )
+    return () => {
+      subscription.unsubscribe()
+    }
     }, [supabaseClient])
-
-    console.log(currentUser);
 
 
     return (
+        <TopNavContext.Provider value={userExists}>
+
         <nav className="flex items-center justify-between w-full p-4 sm:text-xl text-base font-semibold border-b">
             <div className="flex items-center w-1/4">
                 <Image src='https://avatars.planningcenteronline.com/uploads/organization/217202-1482195203/avatar.1.png' alt="Main Church" className="sm:w-[120px] sm:h-[120px]" width={80} height={80} />
@@ -47,17 +50,18 @@ export function TopNav() {
                 </h2>
             </div>
             <div className="flex justify-end gap-4 items-center w-1/4">
-                {!currentUser ? <div></div> : <Button onClick={async () => {
+                {!userExists ? <div></div> : <Button onClick={async () => {
                     router.push("/")
                     const { error } = await supabaseClient.auth.signOut();
                     if (error) {
                         console.error('Error signing out', error);
                     } else {
-                        setCurrentUser(null);
+                        setUserExists(false);
                     }
 
                 }}>Sign Out</Button>}
             </div>
         </nav>
+        </TopNavContext.Provider>
     )
 }
