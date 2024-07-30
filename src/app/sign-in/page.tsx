@@ -49,7 +49,7 @@ export default function SignInPage() {
         <>
         <TopNav />
         <div className="min-w-screen flex flex-row justify-center items-center h-full">
-            <div className="w-fit flex mt-10 flex-col items-center border-2 p-4 gap-4 rounded-lg shadow-xl">
+            <div className="w-fit flex mt-10 flex-col items-center border-2 p-8 gap-6 rounded-lg shadow-xl">
                 <h1 className="sm:text-xl text-lg font-semibold">Sign In</h1>
                 <form className="flex flex-col gap-4" action={async (formData) => {
                     if (otpSent) {
