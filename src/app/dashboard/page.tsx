@@ -17,7 +17,7 @@ import Image from "next/image";
 
 
 
-function CameraComponent({ user }: { user: User }) {
+function CameraComponent({user}: {user: User}) {
     const isMobile = rdd.isMobile;
     const width = isMobile ? 400 : 300;
     const height = isMobile ? 300: 400;
@@ -47,16 +47,51 @@ function CameraComponent({ user }: { user: User }) {
 
     
     return (
-        <div className="flex flex-col items-center justify-center">
+        <div className="flex flex-col items-center justify-center gap-8">
+        <div>
+            Welcome, {user.user_metadata.first_name} {user.user_metadata.last_name}
+        </div>
+
+        <div>
+            <Button onClick={() => {
+                setCaptureEnable(true);
+            }}>Open Camera</Button>
+        </div>
+        {isCaptureEnable && (
+            <>
             <Webcam
                 audio={false}
                 ref={webcamRef}
                 screenshotFormat="image/jpeg"
                 videoConstraints={videoConstraints}
-                style={{width: isMobile ? height : width, height: isMobile ? width : height}}
+                mirrored={true}
             />
-            <button onClick={capture}>Capture</button>
-            {url && <img src={url} alt="captured" />}
+            <div className="flex flex-row justify-cetner gap-4">
+            <Button onClick={capture}>Capture</Button>
+            <Button onClick={() => {
+                setCaptureEnable(false);
+                setUrl(null);
+            }}>Cancel</Button>
+            </div>
+
+            </>
+        )}
+
+            {url && (
+                <>
+                <img src={url} alt="captured" />
+                <div className="flex flex-row justify-center gap-4">
+                    <Button onClick={() => {setUrl(null)}}>Delete</Button>
+                    <form action={async (formData) => {
+                        await updateImage(formData);
+                    }}>
+                        <Input hidden value={url} />
+                    <Button type="submit">Upload Image</Button>
+                    </form>
+                </div>
+                </>
+                
+                )}
         </div>
     )
 }
@@ -115,16 +150,7 @@ export default function Dashboard() {
             <>
             <TopNav />
             <div className="min-w-screen flex flex-col gap-4 justify-center items-center h-full mt-10">
-                    <h1 className="sm:text-xl text-lg font-semibold">Dashboard</h1>
-                    <h2>Logged in as: {currentUser?.user_metadata.first_name} {currentUser?.user_metadata.last_name}</h2>
-                    <form action={async (formData) => {
-                        await updateImage(formData);
-                    }
-                    }>
-                        
-                        <Input type="text" placeholder="Enter base64 profile image" name="image" />
-                        <Button type="submit">Upload</Button>
-                    </form>
+                 <CameraComponent user={currentUser} />
             </div>
         </>
         )
