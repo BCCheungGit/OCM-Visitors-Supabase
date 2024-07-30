@@ -3,6 +3,7 @@
 import { redirect } from 'next/navigation';
 
 import { createClient } from "../../../utils/supabase/server";
+import { revalidatePath } from 'next/cache';
 
 
 export async function updateImage(formData: FormData) {
@@ -27,7 +28,8 @@ export async function updateImage(formData: FormData) {
     }
     else {
         console.log(data);
-        return { message: 'Image updated' }
+        redirect('/dashboard/print');
+        
 
     }
     

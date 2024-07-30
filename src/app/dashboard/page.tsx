@@ -17,11 +17,11 @@ import Image from "next/image";
 
 
 
-function CameraComponent({user}: {user: User}) {
-    const isMobile = rdd.isMobile;
+function CameraComponent({user, onImageUpload}: {user: User, onImageUpload: () => void}) {
+    const isMobile = window.innerWidth < 768;
     const width = isMobile ? 400 : 300;
     const height = isMobile ? 300: 400;
-    
+    console.log("mobile: ", isMobile)   
     const videoConstraints = {
       width: width,
       height: height,
@@ -41,22 +41,36 @@ function CameraComponent({user}: {user: User}) {
         setCaptureEnable(false);
         console.log(imageSrc);
       }
-    }, [webcamRef]);
+    }, [webcamRef, setUrl]);
 
 
 
     
     return (
-        <div className="flex flex-col items-center justify-center gap-8">
+        <div className="flex flex-col items-center justify-center gap-4">
         <div>
             Welcome, {user.user_metadata.first_name} {user.user_metadata.last_name}
         </div>
+        
 
-        <div>
+        {!url && (
+            <>
+                    <div className="flex flex-row gap-4">
             <Button onClick={() => {
-                setCaptureEnable(true);
-            }}>Open Camera</Button>
-        </div>
+                if (isCaptureEnable) {
+                    setCaptureEnable(false);
+                    setUrl(null);
+                }
+                else {
+                    setCaptureEnable(true);
+                }
+            }}>{isCaptureEnable ? "Close Camera" : "Open Camera"} </Button>
+            {isCaptureEnable && <Button onClick={capture}>Capture</Button>}
+            </div>
+            </>
+        )}
+
+
         {isCaptureEnable && (
             <>
             <Webcam
@@ -66,29 +80,23 @@ function CameraComponent({user}: {user: User}) {
                 videoConstraints={videoConstraints}
                 mirrored={true}
             />
-            <div className="flex flex-row justify-cetner gap-4">
-            <Button onClick={capture}>Capture</Button>
-            <Button onClick={() => {
-                setCaptureEnable(false);
-                setUrl(null);
-            }}>Cancel</Button>
-            </div>
-
             </>
         )}
 
             {url && (
                 <>
-                <img src={url} alt="captured" />
-                <div className="flex flex-row justify-center gap-4">
-                    <Button onClick={() => {setUrl(null)}}>Delete</Button>
+
+                <div className="flex flex-row justify-center w-full gap-4">
+                    <Button onClick={() => {setUrl(null)}} className="w-fit">Delete</Button>
                     <form action={async (formData) => {
                         await updateImage(formData);
+                        onImageUpload();
                     }}>
-                        <Input hidden value={url} />
-                    <Button type="submit">Upload Image</Button>
+                        <input name="image" defaultValue={url} hidden value={url} />
+                    <Button className="w-fit" type="submit">Upload Image</Button>
                     </form>
                 </div>
+                <img src={url} alt="captured" />
                 </>
                 
                 )}
@@ -110,8 +118,6 @@ export default function Dashboard() {
     
     const [currentUser, setCurrentUser] = useState<User | null>(null);
     const [hasImage, setHasImage] = useState<boolean>(false);
-    const [profileImage, setProfileImage] = useState<string | null>(null);
-
 
     useEffect(() => {
         async function checkUser() {
@@ -127,20 +133,28 @@ export default function Dashboard() {
         checkUser();
     }, [])
 
-    useEffect(() => {
-        async function checkImage() {
-            const { data, error } = await supabaseClient.from('profiles').select('image').eq('id', currentUser?.id).single();
-
-            if (data) {
-                setHasImage(true);
-                setProfileImage(data.image);
-            }
+    const handleImageUpload = useCallback(() => {
+        setHasImage(true);
+        checkImage();
+      }, []);
+      
+    const checkImage = useCallback(async () => {
+        const { data, error } = await supabaseClient.from('profiles').select('image').eq('id', currentUser?.id).single();
+        if (error) {
+          console.error('Error fetching image', error);
         }
+        if (data?.image !== null) {
+          setHasImage(true);
+          router.push('/dashboard/print');
+        }
+      }, [currentUser, supabaseClient]);
+
+
+      useEffect(() => {
         if (currentUser) {
-            checkImage();
+          checkImage();
         }
-    }, [currentUser])
-
+      }, [currentUser, checkImage]);
 
     if (!currentUser) {
         return <div>Loading...</div>
@@ -150,22 +164,11 @@ export default function Dashboard() {
             <>
             <TopNav />
             <div className="min-w-screen flex flex-col gap-4 justify-center items-center h-full mt-10">
-                 <CameraComponent user={currentUser} />
+            <CameraComponent user={currentUser} onImageUpload={handleImageUpload} />
             </div>
         </>
         )
     }
-    else {
-        return (
-            <>
-            <TopNav />
-            <div className="min-w-screen flex flex-col gap-4 justify-center items-center h-full mt-10">
-                    <h1 className="sm:text-xl text-lg font-semibold">Dashboard</h1>
-                    <h2>Logged in as: {currentUser?.user_metadata.first_name} {currentUser?.user_metadata.last_name}</h2>
-                    <Image alt="profile image" src={profileImage || ''} width={100} height={100} />
-            </div>
-            </>
-        )
-    }
+
 
 }
