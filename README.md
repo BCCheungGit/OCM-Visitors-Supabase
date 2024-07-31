@@ -16,3 +16,8 @@ OCM Visitors is a simple web application that allows you to track visitors to OC
 - ShadCN UI
 
 
+## Todo
+- [ ] Add print page with ID card
+- [ ] 
+
+

@@ -44,6 +44,7 @@ export async function signUp(formData: FormData) {
                 first_name: inputData.first_name,
                 last_name: inputData.last_name,
                 phone: formattedPhone,
+                sign_in_time: new Date().toISOString(),
             }
         }
     } )

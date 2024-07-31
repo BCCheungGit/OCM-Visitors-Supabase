@@ -55,6 +55,14 @@ export default function SignInPage() {
                     if (otpSent) {
                         console.log('verifying otp')
                         const res = await verifyOtp(formData);
+                        if (res.error) {
+                            toast({
+                                title: "Verification Error",
+                                description: res.error,
+                                variant: "destructive",
+                            })
+
+                        }
   
                     } else {
                         try {
@@ -81,7 +89,7 @@ export default function SignInPage() {
                                     
                                 }       
                                 )
-
+                                
                                 setPhoneNumber(formData.get('phone') as string);
                                 setOtpSent(true);
                             }
