@@ -19,6 +19,7 @@ const config = {
     },
     extend: {
       colors: {
+        'ocm-purple': '#800080',
         border: "hsl(var(--border))",
         input: "hsl(var(--input))",
         ring: "hsl(var(--ring))",
