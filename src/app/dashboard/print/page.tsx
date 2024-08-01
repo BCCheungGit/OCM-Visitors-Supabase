@@ -9,6 +9,7 @@ import Image from "next/image";
 import { IDCard } from "./_components/idcard";
 import ReactToPrint from 'react-to-print';
 import { Button } from "@/components/ui/button";
+import { is_claims_admin } from "@/server/claims/claims";
 
 function convertToESTFormat(dateString: string): string {
 
@@ -58,6 +59,9 @@ export default function PrintPage() {
 
             if (user) {
                 setCurrentUser(user);
+                if (await is_claims_admin()) {
+                  router.push("/admin");
+                }
 
             } else {
                 router.push("/");

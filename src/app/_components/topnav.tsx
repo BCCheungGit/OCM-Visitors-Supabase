@@ -2,7 +2,7 @@
 import Image from "next/image";
 import { Button } from "@/components/ui/button";
 import { createClient } from "../../../utils/supabase/client";
-import { useState, useEffect, createContext } from 'react';
+import { useState, useEffect, createContext, useCallback } from 'react';
 import { User } from '@supabase/supabase-js';
 import { useRouter } from "next/navigation";
 import {
@@ -23,21 +23,41 @@ export function TopNav() {
 
     const [userExists, setUserExists] = useState<boolean>(false);
     const [currentUser, setCurrentUser] = useState<User | null>(null);
+    const [profileImage, setProfileImage] = useState<string | null>(null);
     const router = useRouter();
 
     useEffect(() => {
         async function checkUser() {
             const { data: { user } } = await supabaseClient.auth.getUser();
 
+
             if (user) {
                 setCurrentUser(user);
+
+
             }
 
         }
         checkUser();
+
     }, [])
 
-    
+    const checkImage = useCallback(async () => {
+        const { data, error } = await supabaseClient.from('profiles').select('image').eq('id', currentUser?.id).single();
+        if (error) {
+            console.error('Error fetching image', error);
+        }
+        if (data?.image !== null) {
+            setProfileImage(data?.image);
+        }
+    }, [currentUser, supabaseClient]);
+
+
+    useEffect(() => {
+        if (currentUser) {
+            checkImage();
+        }
+    }, [currentUser, checkImage]);
 
     useEffect(() => {
         const { data: { subscription } } = supabaseClient.auth.onAuthStateChange((event, session) => {
@@ -83,7 +103,18 @@ export function TopNav() {
                             <>
                                 <Popover>
                                     <PopoverTrigger asChild>
-                                        <Button className="flex flex-row gap-1" variant="secondary">{currentUser?.user_metadata.first_name} <ArrowDown size={16} strokeWidth={1.5} /> </Button>
+                                        <div className="flex flex-row gap-4 items-center hover:cursor-pointer">
+                                            <div className="w-8 h-8 overflow-hidden rounded-full">
+                                                <Image
+                                                    src={profileImage ?? ""}
+                                                    alt="Profile Image"
+                                                    className="object-cover w-full h-full"
+                                                    width={40}
+                                                    height={40}
+                                                />
+                                            </div>
+                                            <Button className="hidden md:flex-row gap-1 md:flex" variant="secondary">{currentUser?.user_metadata.first_name} <ArrowDown size={16} strokeWidth={1.5} /> </Button>
+                                        </div>
                                     </PopoverTrigger>
                                     <PopoverContent className="sm:w-80 w-60">
                                         <div className="grid gap-4">
@@ -94,15 +125,15 @@ export function TopNav() {
                                                 </p>
                                             </div>
                                             <Button onClick={async () => {
-                                    router.push("/")
-                                    const { error } = await supabaseClient.auth.signOut();
-                                    if (error) {
-                                        console.error('Error signing out', error);
-                                    } else {
-                                        setUserExists(false);
-                                    }
+                                                router.push("/")
+                                                const { error } = await supabaseClient.auth.signOut();
+                                                if (error) {
+                                                    console.error('Error signing out', error);
+                                                } else {
+                                                    setUserExists(false);
+                                                }
 
-                                }}>
+                                            }}>
                                                 Log Out
                                             </Button>
                                         </div>
