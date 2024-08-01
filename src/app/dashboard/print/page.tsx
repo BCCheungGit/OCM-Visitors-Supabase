@@ -7,7 +7,8 @@ import { User } from "@supabase/supabase-js";
 import { TopNav } from "@/app/_components/topnav";
 import Image from "next/image";
 import { IDCard } from "./_components/idcard";
-
+import ReactToPrint from 'react-to-print';
+import { Button } from "@/components/ui/button";
 
 function convertToESTFormat(dateString: string): string {
 
@@ -90,6 +91,13 @@ export default function PrintPage() {
         <TopNav />
         <div className="min-w-screen flex flex-col gap-4 justify-center items-center h-full mt-10">
                 <h1 className="sm:text-xl text-lg font-semibold">Dashboard</h1>
+                <div className="sm:inline hidden">
+                  <ReactToPrint 
+                    trigger={() => <Button>Print ID Card</Button>}
+                    content={() => idCardContainerRef.current}
+                  />
+
+                </div>
                 <CardComponent user={currentUser} idCardContainerRef={idCardContainerRef} photo={profileImage || ''} />
         </div>
         </>
