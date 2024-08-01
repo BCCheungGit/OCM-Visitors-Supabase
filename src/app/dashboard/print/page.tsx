@@ -65,6 +65,7 @@ export default function PrintPage() {
         }
         checkUser();
     }, [])
+    
     const checkImage = useCallback(async () => {
         const { data, error } = await supabaseClient.from('profiles').select('image').eq('id', currentUser?.id).single();
         if (error) {

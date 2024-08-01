@@ -5,6 +5,7 @@ import { redirect } from 'next/navigation';
 
 import { createClient } from "../../../utils/supabase/server";
 import { VerifyOtpParams } from "@supabase/supabase-js";
+import { is_claims_admin } from "@/server/claims/claims";
 
 
 
@@ -85,9 +86,11 @@ export async function verifyOtp(formData: FormData) {
         console.error(error)
         return { error: error.message }
     } else {
-        console.log(session)
-        
-        redirect('/dashboard')
+        if (await is_claims_admin()) {
+            redirect('/admin')
+        } else {
+            redirect('/dashboard')
+        }
         
     }
 }

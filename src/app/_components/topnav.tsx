@@ -31,15 +31,13 @@ export function TopNav() {
 
             if (user) {
                 setCurrentUser(user);
-
-            } else {
-                router.push("/");
             }
+
         }
         checkUser();
     }, [])
 
-
+    
 
     useEffect(() => {
         const { data: { subscription } } = supabaseClient.auth.onAuthStateChange((event, session) => {
