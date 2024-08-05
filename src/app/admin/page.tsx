@@ -12,6 +12,7 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@
 import { searchUsers } from "@/server/queries";
 import Image from "next/image";
 import { Button } from "@/components/ui/button";
+import { DeleteModal, ImageModal } from "../_components/modals";
 
 function convertToESTFormat(dateString: string): string {
 
@@ -66,14 +67,14 @@ export default async function AdminPage(params: {
                 {users.users?.map((user) => (
                     <TableRow key={user.id}>
                         <TableCell>
-                            <Image src={user.image} alt="user image" width={50} height={50} />
+                            <ImageModal image={user.image} />
                         </TableCell>
                         <TableCell>{user.first_name} {user.last_name}</TableCell>
                         <TableCell>{user.phone}</TableCell>
                         <TableCell>{convertToESTFormat(user.sign_in_time)}</TableCell>
                         <TableCell>
                             {data.user?.id !== user.id ? (
-                                <Button variant="destructive">Delete</Button>
+                                <DeleteModal firstName={user.first_name} lastName={user.last_name} userId={user.id} />
                             )
                             :
                             (
