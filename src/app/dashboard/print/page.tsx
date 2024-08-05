@@ -96,7 +96,6 @@ export default function PrintPage() {
         <>
         <TopNav />
         <div className="min-w-screen flex flex-col gap-4 justify-center items-center h-full mt-10">
-                <h1 className="sm:text-xl text-lg font-semibold">Dashboard</h1>
                 <div className="sm:inline hidden">
                   <ReactToPrint 
                     trigger={() => <Button>Print ID Card</Button>}

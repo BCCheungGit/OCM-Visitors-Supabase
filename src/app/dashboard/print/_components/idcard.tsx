@@ -33,15 +33,15 @@ export const IDCard: React.FC<IDCardProps> = ({
             />
             <div className="col-span-2">
               <div className="flex flex-col gap-2">
-                <div className="font-semibold sm:text-2xl text-lg mt-2">{name}</div>
+                <div className="font-semibold sm:text-2xl text-lg">{name}</div>
 
                 <div className="flex flex-row justify-between">
                   <div className="sm:text-base text-sm">{date}</div>
                   <div className="sm:inline hidden">
-                    <QRCode value={id} size={110} />
+                    <QRCode value={id} size={115} />
                   </div>
                   <div className="sm:hidden inline">
-                    <QRCode value={id} size={70} />
+                    <QRCode value={id} size={85} />
                   </div>
                 </div>
               </div>
