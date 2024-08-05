@@ -35,6 +35,7 @@ const CardComponent: React.FC<CardProps> = ({user, idCardContainerRef, photo}) =
   return (
     <div ref={idCardContainerRef}>
       <IDCard
+        id={user.id}
         name={`${user.user_metadata.first_name} ${user.user_metadata.last_name}`}
         phone={user.user_metadata.phone_number}
         photo={photo}

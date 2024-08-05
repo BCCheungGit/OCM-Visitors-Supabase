@@ -109,7 +109,7 @@ export default function SignUpPage() {
             </div>
             <div>
                 <label htmlFor="phone" className="sm:text-sm text-xs" aria-required>Phone Number 電話號碼</label>
-                <PhoneInput name="phone" placeholder="Enter phone number" />
+                <PhoneInput name="phone" placeholder="Enter phone number" value="+1" />
             </div>
             <Button type="submit">Sign Up</Button>
             </div>

@@ -107,7 +107,7 @@ export default function SignInPage() {
                 <div className="flex flex-col gap-6">
             <div>
                 <label htmlFor="phone" className="sm:text-sm text-xs" aria-required>Phone Number 電話號碼</label>
-                <PhoneInput placeholder="Enter Phone Number" name="phone" />
+                <PhoneInput placeholder="Enter Phone Number" name="phone" value="+1" />
             </div>
             <Button type="submit">Sign In</Button>
             </div>
