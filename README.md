@@ -31,6 +31,7 @@ OCM Visitors is a simple web application that allows you to track visitors to OC
     - [x] Admin Dashboard
 - [x] Set up backend with Supabase and Twilio
 - [x] Set up deletion scripts [OCM-Visitor-Scripts](https://github.com/BCCheungGit/OCM-Visitor-Scripts)
+- [ ] Clean up redundant code
 - [ ] Deploy
 
 

@@ -16,7 +16,6 @@ import { useToast } from "@/components/ui/use-toast";
 import { ToastAction } from "@/components/ui/toast";
 import Link from "next/link";
 import { createClient } from "../../../utils/supabase/client";
-import * as RDNInput from 'react-phone-number-input';
 import { PhoneInput } from "../../components/ui/phoneinput";
 import { TopNav } from "../_components/topnav";
 
