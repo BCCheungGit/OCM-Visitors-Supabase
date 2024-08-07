@@ -8,6 +8,13 @@ OCM Visitors is a simple web application that allows you to track visitors to OC
 - Update visitor details
 - Delete visitor
 
+## Final Product Plan
+- Active Users: about 60 per week -> about 3120 per year
+- Active Devices: 1-2 Laptops/Tablets
+- Active Sessions: 1-2 per device
+- Data Storage: 3-4 GB per year
+- Data Transfer: 3-4 GB per year
+- Data Retention: 1 Week (Temporary)
 
 ## Tech Stack
 - Supabase
@@ -17,7 +24,13 @@ OCM Visitors is a simple web application that allows you to track visitors to OC
 
 
 ## Todo
-- [ ] Add print page with ID card
-- [ ] 
+- [x] Set up frontend
+    - [x] Authentication pages
+    - [x] Print pages
+        - [x] Added feature: QR codes to ID cards that can be scanned
+    - [x] Admin Dashboard
+- [x] Set up backend with Supabase and Twilio
+- [x] Set up deletion scripts [OCM-Visitor-Scripts](https://github.com/BCCheungGit/OCM-Visitor-Scripts)
+- [ ] Deploy
 
 

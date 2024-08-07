@@ -5,7 +5,6 @@ import { createClient } from "../../../../utils/supabase/client";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { User } from "@supabase/supabase-js";
 import { TopNav } from "@/app/_components/topnav";
-import Image from "next/image";
 import { IDCard } from "./_components/idcard";
 import ReactToPrint from 'react-to-print';
 import { Button } from "@/components/ui/button";
