@@ -100,16 +100,16 @@ export default function SignUpPage() {
                 <div className="flex flex-row gap-4" >
                 <div className="flex flex-col ">
                     <label htmlFor="first-name" className="sm:text-sm text-xs" aria-required>First Name 名字</label>
-                    <Input type="text" name="first-name" />
+                    <Input required type="text" name="first-name" />
                 </div>
                 <div className="flex flex-col">
                     <label htmlFor="last-name" className="sm:text-sm text-xs" aria-required>Last Name 姓氏</label>
-                    <Input type="text" name="last-name" />
+                    <Input required type="text" name="last-name" />
                 </div>
             </div>
             <div>
                 <label htmlFor="phone" className="sm:text-sm text-xs" aria-required>Phone Number 電話號碼</label>
-                <PhoneInput name="phone" placeholder="Enter phone number" value="+1" />
+                <PhoneInput required name="phone" placeholder="Enter phone number" value="+1" />
             </div>
             <Button type="submit">Sign Up</Button>
             </div>
@@ -122,7 +122,7 @@ export default function SignUpPage() {
                             <div>
                                 <Input type="hidden" name="phone" value={phoneNumber} />
                                 <label htmlFor="otp" className="sm:text-base text-sm">OTP</label>
-                                <InputOTP name="otp" maxLength={6} pattern={REGEXP_ONLY_DIGITS} value={otpValue} onChange={(value) => setOtpValue(value)}>
+                                <InputOTP required name="otp" maxLength={6} pattern={REGEXP_ONLY_DIGITS} value={otpValue} onChange={(value) => setOtpValue(value)}>
                                     <InputOTPGroup>
                                         <InputOTPSlot index={0} />
                                         <InputOTPSlot index={1} />

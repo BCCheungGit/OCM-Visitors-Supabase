@@ -14,7 +14,6 @@ import { useToast } from "@/components/ui/use-toast";
 import { ToastAction } from "@/components/ui/toast";
 import Link from "next/link";
 import { createClient } from "../../../utils/supabase/client";
-import * as RDNInput from 'react-phone-number-input';
 import { signIn, verifyOtp } from "./actions";
 import { PhoneInput } from "@/components/ui/phoneinput";
 import { TopNav } from "../_components/topnav";
@@ -107,7 +106,7 @@ export default function SignInPage() {
                 <div className="flex flex-col gap-6">
             <div>
                 <label htmlFor="phone" className="sm:text-sm text-xs" aria-required>Phone Number 電話號碼</label>
-                <PhoneInput placeholder="Enter Phone Number" name="phone" value="+1" />
+                <PhoneInput required placeholder="Enter Phone Number" name="phone" value="+1" />
             </div>
             <Button type="submit">Sign In</Button>
             </div>
@@ -120,7 +119,7 @@ export default function SignInPage() {
                             <div>
                                 <Input type="hidden" name="phone" value={phoneNumber} />
                                 <label htmlFor="otp" className="sm:text-base text-sm">OTP</label>
-                                <InputOTP name="otp" maxLength={6} pattern={REGEXP_ONLY_DIGITS} value={otpValue} onChange={(value) => setOtpValue(value)}>
+                                <InputOTP required name="otp" maxLength={6} pattern={REGEXP_ONLY_DIGITS} value={otpValue} onChange={(value) => setOtpValue(value)}>
                                     <InputOTPGroup>
                                         <InputOTPSlot index={0} />
                                         <InputOTPSlot index={1} />
