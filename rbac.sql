@@ -1,3 +1,9 @@
+
+---
+-- These functions are outdated, supposed to be used with Supabase
+-- Placed here for completeness' sake
+---
+
 CREATE OR REPLACE FUNCTION is_claims_admin() RETURNS "bool"
   LANGUAGE "plpgsql" 
   AS $$
