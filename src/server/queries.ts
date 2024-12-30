@@ -1,31 +1,53 @@
 import { revalidatePath } from "next/cache";
-import { createAdminClient } from "../../utils/supabase/admin";
-import { createClient } from "../../utils/supabase/server";
+// import { createAdminClient } from "../../utils/supabase/admin";
+// import { createClient } from "../../utils/supabase/server";
 import { PrismaClient } from "@prisma/client";
 
 
 
-export async function searchUsers(query: string) {
-    const supabase = createClient();
+// export async function searchUsers(query: string) {
+//     const supabase = createClient();
 
-    if (query === "") {
-        const { data: users, error } = await supabase.from('profiles').select('*');
-        if (error) {
-            console.error(error);
-            return { error: error.message }
+//     if (query === "") {
+//         const { data: users, error } = await supabase.from('profiles').select('*');
+//         if (error) {
+//             console.error(error);
+//             return { error: error.message }
+//         }
+
+//         return { users }
+
+//     }
+//     else {
+//         const { data: users, error } = await supabase.from('profiles').select('*').ilike('first_name', query);
+//         if (error) {
+//             console.error(error);
+//             return { error: error.message }
+//         }
+
+//         return { users }
+//     }
+// }
+
+
+
+export async function checkAdmin(userId: string) {
+    const prisma = new PrismaClient();
+    const res = await prisma.visitors_master.findFirst({
+        where: {
+            id: userId
         }
-
-        return { users }
-
+    })
+    await prisma.$disconnect();
+    if (!res) {
+        await prisma.$disconnect();
+        console.error('User not found');
+        return { error: 'User not found' };
     }
-    else {
-        const { data: users, error } = await supabase.from('profiles').select('*').ilike('first_name', query);
-        if (error) {
-            console.error(error);
-            return { error: error.message }
-        }
-
-        return { users }
+    if (res.role == 'admin') {
+        return { admin: true }
+    } else {
+        return { admin: false }
     }
 }
 
@@ -44,5 +66,5 @@ export async function deleteUser(userId: string) {
         console.error(e);
         process.exit(1);
     }
-    await prisma.$disconnect(); 
+    await prisma.$disconnect();
 }

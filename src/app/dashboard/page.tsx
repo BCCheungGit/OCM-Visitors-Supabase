@@ -2,7 +2,7 @@
 
 
 import { useCallback, useEffect, useRef, useState } from "react";
-import { createClient } from "../../../utils/supabase/client";
+
 import { User } from "@supabase/supabase-js";
 import { useRouter } from "next/navigation";
 import { TopNav } from "../_components/topnav";
@@ -112,49 +112,37 @@ function CameraComponent({user, onImageUpload}: {user: User, onImageUpload: () =
 export default function Dashboard() {
 
     const router = useRouter();
-    const supabaseClient = createClient();
+
 
 
     
     const [currentUser, setCurrentUser] = useState<User | null>(null);
     const [hasImage, setHasImage] = useState<boolean>(false);
 
-    useEffect(() => {
-        async function checkUser() {
-            const { data: { user } } = await supabaseClient.auth.getUser();
 
-            if (user) {
-                setCurrentUser(user);
-
-            } else {
-                router.push("/");
-            }
-        }
-        checkUser();
-    }, [])
 
     const handleImageUpload = useCallback(() => {
         setHasImage(true);
-        checkImage();
+        // checkImage();
       }, []);
       
-    const checkImage = useCallback(async () => {
-        const { data, error } = await supabaseClient.from('profiles').select('image').eq('id', currentUser?.id).single();
-        if (error) {
-          console.error('Error fetching image', error);
-        }
-        if (data?.image !== null) {
-          setHasImage(true);
-          router.push('/dashboard/print');
-        }
-      }, [currentUser, supabaseClient]);
+    // const checkImage = useCallback(async () => {
+    //     const { data, error } = await supabaseClient.from('profiles').select('image').eq('id', currentUser?.id).single();
+    //     if (error) {
+    //       console.error('Error fetching image', error);
+    //     }
+    //     if (data?.image !== null) {
+    //       setHasImage(true);
+    //       router.push('/dashboard/print');
+    //     }
+    //   }, [currentUser, supabaseClient]);
 
 
-      useEffect(() => {
-        if (currentUser) {
-          checkImage();
-        }
-      }, [currentUser, checkImage]);
+    //   useEffect(() => {
+    //     if (currentUser) {
+    //       checkImage();
+    //     }
+    //   }, [currentUser, checkImage]);
 
     if (!currentUser) {
         return <div>Loading...</div>

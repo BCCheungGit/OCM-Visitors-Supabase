@@ -364,4 +364,5 @@ model visitors_master {
   last_signed_in String?
   events         String
   active         Boolean?
+  role           String?
 }
