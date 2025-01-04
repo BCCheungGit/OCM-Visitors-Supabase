@@ -365,4 +365,5 @@ model visitors_master {
   events         String
   active         Boolean?
   role           String?
+  image          String?
 }
