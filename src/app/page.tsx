@@ -5,28 +5,13 @@ import { Button } from "@/components/ui/button";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { createClient } from "../../utils/supabase/client";
+
 import { useEffect } from "react";
 import { TopNav } from "./_components/topnav";
 
 export default function Home() {
 
       const router = useRouter();
-
-      const supabaseClient = createClient();
-
-
-
-      useEffect(() => {
-        async function checkUser() {
-            const { data: { user } } = await supabaseClient.auth.getUser();
-
-            if (user) {
-                router.push("/dashboard");
-            }
-        }
-        checkUser();
-    }, [])
 
       return (
         <>

@@ -1,45 +1,44 @@
 import { revalidatePath } from "next/cache";
-import { createAdminClient } from "../../utils/supabase/admin";
-import { createClient } from "../../utils/supabase/server";
+import { PrismaClient } from "@prisma/client";
 
 
 
 
-export async function searchUsers(query: string) {
-    const supabase = createClient();
 
-    if (query === "") {
-        const { data: users, error } = await supabase.from('profiles').select('*');
-        if (error) {
-            console.error(error);
-            return { error: error.message }
+export async function checkAdmin(userId: string) {
+    const prisma = new PrismaClient();
+    const res = await prisma.visitors_master.findFirst({
+        where: {
+            id: userId
         }
-
-        return { users }
-
+    })
+    await prisma.$disconnect();
+    if (!res) {
+        await prisma.$disconnect();
+        console.error('User not found');
+        return { error: 'User not found' };
     }
-    else {
-        const { data: users, error } = await supabase.from('profiles').select('*').ilike('first_name', query);
-        if (error) {
-            console.error(error);
-            return { error: error.message }
-        }
-
-        return { users }
+    if (res.role == 'admin') {
+        return { admin: true }
+    } else {
+        return { admin: false }
     }
 }
 
 
 export async function deleteUser(userId: string) {
-    const supabase = createAdminClient();
+    const prisma = new PrismaClient();
 
-    const { data, error } = await supabase.auth.admin.deleteUser(userId);
-
-    if (error) {
-        console.log(error);
-    } else {
-        console.log("successfully deleted user: ", userId)
-        revalidatePath("/admin");
-        return { data };
+    try {
+        await prisma.visitors_master.delete({
+            where: {
+                id: userId
+            },
+        })
+    } catch (e: any) {
+        await prisma.$disconnect();
+        console.error(e);
+        process.exit(1);
     }
+    await prisma.$disconnect();
 }

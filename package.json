@@ -10,6 +10,7 @@
   },
   "dependencies": {
     "@hookform/resolvers": "^3.9.0",
+    "@prisma/client": "^6.1.0",
     "@radix-ui/react-alert-dialog": "^1.1.1",
     "@radix-ui/react-dialog": "^1.1.1",
     "@radix-ui/react-label": "^2.1.0",
@@ -26,7 +27,9 @@
     "input-otp": "^1.2.4",
     "lucide-react": "^0.416.0",
     "next": "14.2.5",
+    "next-auth": "^4.24.11",
     "nookies": "^2.5.2",
+    "prisma": "^6.1.0",
     "react": "^18",
     "react-device-detect": "^2.2.3",
     "react-dom": "^18",
@@ -37,6 +40,8 @@
     "react-webcam": "^7.2.0",
     "tailwind-merge": "^2.4.0",
     "tailwindcss-animate": "^1.0.7",
+    "twilio": "^5.4.0",
+    "uuid": "^11.0.3",
     "zod": "^3.23.8"
   },
   "devDependencies": {

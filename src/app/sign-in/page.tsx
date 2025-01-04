@@ -13,8 +13,7 @@ import { redirect, useRouter } from "next/navigation";
 import { useToast } from "@/components/ui/use-toast";
 import { ToastAction } from "@/components/ui/toast";
 import Link from "next/link";
-import { createClient } from "../../../utils/supabase/client";
-import { signIn, verifyOtp } from "./actions";
+
 import { PhoneInput } from "@/components/ui/phoneinput";
 import { TopNav } from "../_components/topnav";
 
@@ -23,20 +22,6 @@ export default function SignInPage() {
 
 
     const router = useRouter();
-
-    const supabaseClient = createClient();
-
-
-    useEffect(() => {
-        async function checkUser() {
-            const { data: { user } } = await supabaseClient.auth.getUser();
-
-            if (user) {
-                router.push("/dashboard");
-            }
-        }
-        checkUser();
-    }, [])
 
     const [otpSent, setOtpSent] = useState<boolean>(false);
     const [phoneNumber, setPhoneNumber] = useState<string>('');
@@ -53,53 +38,53 @@ export default function SignInPage() {
                 <form className="flex flex-col gap-4" action={async (formData) => {
                     if (otpSent) {
                         console.log('verifying otp')
-                        const res = await verifyOtp(formData);
-                        if (res.error) {
-                            toast({
-                                title: "Verification Error",
-                                description: res.error,
-                                variant: "destructive",
-                            })
+                    //     const res = await verifyOtp(formData);
+                    //     if (res.error) {
+                    //         toast({
+                    //             title: "Verification Error",
+                    //             description: res.error,
+                    //             variant: "destructive",
+                    //         })
 
-                        }
+                    //     }
   
-                    } else {
-                        try {
-                            console.log('signing up')
+                    // } else {
+                    //     try {
+                    //         console.log('signing up')
                             
-                            const result = await signIn(formData);
-                            // console.log(result);
+                    //         const result = await signIn(formData);
+                    //         // console.log(result);
 
-                            if (result.error && result.error === 'User does not exist. Please Sign Up') {  
-                                toast({
-                                    title: "Sign In Error",
-                                    description: 'User does not exist. Please Sign Up',
-                                    variant: "destructive",
-                                    action: <Link href="/sign-up"><ToastAction altText="Sign Up">Sign Up</ToastAction></Link>
-                                });
+                    //         if (result.error && result.error === 'User does not exist. Please Sign Up') {  
+                    //             toast({
+                    //                 title: "Sign In Error",
+                    //                 description: 'User does not exist. Please Sign Up',
+                    //                 variant: "destructive",
+                    //                 action: <Link href="/sign-up"><ToastAction altText="Sign Up">Sign Up</ToastAction></Link>
+                    //             });
                             
-                            }
+                    //         }
 
-                            if (result.message) {
-                                toast({
-                                    title: "Sent a code to: " + formData.get('phone'),
-                                    description: "Please enter the code to verify your phone number.",
-                                    variant: "default",
+                    //         if (result.message) {
+                    //             toast({
+                    //                 title: "Sent a code to: " + formData.get('phone'),
+                    //                 description: "Please enter the code to verify your phone number.",
+                    //                 variant: "default",
                                     
-                                }       
-                                )
+                    //             }       
+                    //             )
                                 
-                                setPhoneNumber(formData.get('phone') as string);
-                                setOtpSent(true);
-                            }
-                        } catch (error) {
-                            console.error(error)
-                            toast({
-                                title: "Sign Up Error",
-                                description: "An error occurred. Please try again.",
-                                variant: "destructive",
-                            });
-                        }
+                    //             setPhoneNumber(formData.get('phone') as string);
+                    //             setOtpSent(true);
+                    //         }
+                    //     } catch (error) {
+                    //         console.error(error)
+                    //         toast({
+                    //             title: "Sign Up Error",
+                    //             description: "An error occurred. Please try again.",
+                    //             variant: "destructive",
+                    //         });
+                    //     }
                     }
                 }}>
  {!otpSent && (

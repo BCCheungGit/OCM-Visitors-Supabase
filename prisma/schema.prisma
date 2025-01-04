@@ -1,0 +1,369 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+/// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by Prisma Client.
+model ocm_summer_conferenceRegistration_csv {
+  Registration_ID Int?    @map("Registration ID")
+  First_Name      String? @map("First Name") @db.VarChar(50)
+  Last_Name       String? @map("Last Name") @db.VarChar(50)
+  grade           String? @db.VarChar(50)
+  birthdate       String? @db.VarChar(50)
+  age             Int?
+  gender          String? @db.VarChar(50)
+  column8         String? @db.VarChar(50)
+  column9         String? @db.VarChar(50)
+  column10        String? @db.VarChar(50)
+  column11        String? @db.VarChar(50)
+  column12        String? @db.VarChar(50)
+  column13        String? @db.VarChar(50)
+  column14        String? @db.VarChar(50)
+  column15        String? @db.VarChar(50)
+  column16        String? @db.VarChar(50)
+  column17        String? @db.VarChar(50)
+  column18        String? @db.VarChar(50)
+  column19        String? @db.VarChar(50)
+  column20        String? @db.VarChar(50)
+  column21        String? @db.VarChar(50)
+  column22        String? @db.VarChar(50)
+  column23        String? @db.VarChar(50)
+  column24        String? @db.VarChar(50)
+  column25        String? @db.VarChar(50)
+  column26        String? @db.VarChar(50)
+  column27        String? @db.VarChar(50)
+  column28        String? @db.VarChar(50)
+  column29        String? @db.VarChar(50)
+  column30        String? @db.VarChar(50)
+  column31        String? @db.VarChar(50)
+  column32        String? @db.VarChar(50)
+  column33        String? @db.VarChar(50)
+  column34        String? @db.VarChar(50)
+  column35        String? @db.VarChar(50)
+  column36        String? @db.VarChar(50)
+  column37        String? @db.VarChar(50)
+  column38        String? @db.VarChar(50)
+
+  @@map("2023_ocm_summer_conferenceRegistration_csv")
+  @@ignore
+}
+
+/// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by Prisma Client.
+model cms_agm_2022 {
+  Ballot_Number   Int?    @map("Ballot Number")
+  Attendee_Name   String? @map("Attendee Name") @db.VarChar(100)
+  DB_First_Name   String? @map("DB First Name") @db.VarChar(100)
+  DB_Last_Name    String? @map("DB Last Name") @db.VarChar(100)
+  MemberShip_Type String? @map("MemberShip Type") @db.VarChar(32)
+  Home_Email      String? @map("Home Email") @db.VarChar(128)
+
+  @@ignore
+}
+
+/// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by Prisma Client.
+model contacts4caring {
+  Person_ID                  Int?     @map("Person ID")
+  Name_Prefix                String?  @map("Name Prefix") @db.VarChar(200)
+  Given_Name                 String?  @map("Given Name") @db.VarChar(160)
+  First_Name                 String?  @map("First Name") @db.VarChar(320)
+  Nickname                   String?  @db.VarChar(160)
+  Middle_Name                String?  @map("Middle Name") @db.VarChar(100)
+  Last_Name                  String?  @map("Last Name") @db.VarChar(160)
+  Marital_Status             String?  @map("Marital Status") @db.VarChar(160)
+  Status                     String?  @db.VarChar(100)
+  Membership                 String?  @db.VarChar(320)
+  Home_Address_Street_Line_1 String?  @map("Home Address Street Line 1") @db.VarChar(640)
+  Home_Address_Street_Line_2 String?  @map("Home Address Street Line 2") @db.VarChar(320)
+  Home_Address_City          String?  @map("Home Address City") @db.VarChar(320)
+  Home_Address_State         String?  @map("Home Address State") @db.VarChar(160)
+  Home_Address_Zip_Code      String?  @map("Home Address Zip Code") @db.VarChar(160)
+  Mobile_Phone_Number        String?  @map("Mobile Phone Number") @db.VarChar(128)
+  Home_Phone_Number          String?  @map("Home Phone Number") @db.VarChar(320)
+  Home_Email                 String?  @map("Home Email") @db.VarChar(128)
+  Household_ID               Int?     @map("Household ID")
+  Household_Name             String?  @map("Household Name") @db.VarChar(32)
+  Household_Primary_Contact  Boolean? @map("Household Primary Contact")
+  Created_At                 String?  @map("Created At") @db.VarChar(160)
+  Updated_At                 String?  @map("Updated At") @db.VarChar(160)
+
+  @@ignore
+}
+
+/// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by Prisma Client.
+model demo {
+  pid   Int?
+  name  String?  @db.VarChar(50)
+  price Decimal? @db.Decimal(10, 2)
+
+  @@ignore
+}
+
+model event_master {
+  event_id    String    @id @db.VarChar(15)
+  event_cd    String?   @db.VarChar(15)
+  description String?   @db.VarChar(50)
+  isactive    String?   @db.Bit(1)
+  created     DateTime? @db.Date
+  isdeletable String?   @db.Bit(1)
+}
+
+/// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by Prisma Client.
+model ocm_co_worker01_csv {
+  Name                           String? @db.VarChar(32)
+  Primary_Email                  String? @map("Primary Email") @db.VarChar(32)
+  Primary_Phone_Number           String? @map("Primary Phone Number") @db.VarChar(16)
+  Church_Life____Fellowship_____ String? @map("Church Life :: Fellowship (團契)") @db.VarChar(16)
+  Church_Life____Worship_Service String? @map("Church Life :: Worship Service") @db.VarChar(128)
+
+  @@ignore
+}
+
+/// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by Prisma Client.
+model oversea_chinese_mission_congregrational_meeting_q1_attendance_c {
+  Name                           String? @db.VarChar(32)
+  Primary_Email                  String? @map("Primary Email") @db.VarChar(32)
+  Primary_Phone_Number           String? @map("Primary Phone Number") @db.VarChar(16)
+  Church_Life____Fellowship_____ String? @map("Church Life :: Fellowship (團契)") @db.VarChar(16)
+  Church_Life____Worship_Service String? @map("Church Life :: Worship Service") @db.VarChar(128)
+
+  @@ignore
+}
+
+/// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by Prisma Client.
+model oversea_chinese_mission_contact_master {
+  Person_ID                  Int?    @map("Person ID")
+  Given_Name                 String? @map("Given Name") @db.VarChar(500)
+  First_Name                 String? @map("First Name") @db.VarChar(500)
+  nickname                   String? @db.VarChar(500)
+  Middle_Name                String? @map("Middle Name") @db.VarChar(500)
+  Last_Name                  String? @map("Last Name") @db.VarChar(500)
+  birthdate                  String? @db.VarChar(500)
+  gender                     String? @db.VarChar(500)
+  Marital_Status             String? @map("Marital Status") @db.VarChar(500)
+  status                     String? @db.VarChar(500)
+  membership                 String? @db.VarChar(500)
+  Home_Address_Street_Line_1 String? @map("Home Address Street Line 1") @db.VarChar(500)
+  Home_Address_Street_Line_2 String? @map("Home Address Street Line 2") @db.VarChar(500)
+  Home_Address_City          String? @map("Home Address City") @db.VarChar(500)
+  Home_Address_State         String? @map("Home Address State") @db.VarChar(500)
+  Home_Address_Zip_Code      String? @map("Home Address Zip Code") @db.VarChar(500)
+  Mobile_Phone_Number        String? @map("Mobile Phone Number") @db.VarChar(500)
+  Home_Phone_Number          String? @map("Home Phone Number") @db.VarChar(500)
+  Home_Email                 String? @map("Home Email") @db.VarChar(500)
+  Work_Email                 String? @map("Work Email") @db.VarChar(500)
+  Other_Email                String? @map("Other Email") @db.VarChar(500)
+  Created_At                 String? @map("Created At") @db.VarChar(100)
+  Updated_At                 String? @map("Updated At") @db.VarChar(100)
+  Remote_ID                  Int?    @map("Remote ID")
+
+  @@ignore
+}
+
+model people {
+  pid        Int
+  details    Json      @id(map: "people_details_ukey")
+  updatetime DateTime? @db.Timestamp(6)
+
+  @@index([details(ops: JsonbPathOps)], map: "ppl_idx", type: Gin)
+}
+
+model people_included {
+  include_seq Int
+  included    Json      @id(map: "people_included_ukey")
+  updatetime  DateTime? @db.Timestamp(6)
+
+  @@index([included], map: "ppl_include_idx")
+}
+
+/// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by Prisma Client.
+model people_master {
+  people_id  BigInt?
+  fname      String?
+  lname      String?
+  email      String?
+  mobile     String?
+  vaccinated String?
+
+  @@ignore
+}
+
+model peoplejs {
+  pid         Int
+  details     Json      @id(map: "details_ukey")
+  updatetime  DateTime? @db.Timestamp(6)
+  vaccination DateTime? @db.Timestamp(6)
+  gift        DateTime? @db.Timestamp(6)
+}
+
+/// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by Prisma Client.
+model profilemaster {
+  PersonID      BigInt?
+  FirstName     String?
+  LastName      String?
+  Birthdate     String?
+  Gender        String?
+  MaritalStatus String?
+  Status        String?
+  Membership    String?
+  MobileNumber  String?
+  HomeNumber    String?
+  Email         String?
+  CreatedAt     String?
+  UpdatedAt     String?
+  qrcodesent    DateTime? @db.Date
+
+  @@ignore
+}
+
+/// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by Prisma Client.
+model registrant_master {
+  pid            Int
+  people_id      String?
+  lname          String?
+  fname          String?
+  profile        String?
+  household_id   String?
+  lastsync       DateTime? @db.Timestamp(6)
+  checkedin      DateTime? @db.Timestamp(6)
+  checkedin_flag Boolean?
+  event_cd       String?   @db.VarChar
+
+  @@ignore
+}
+
+model registrantjs {
+  pid        Int
+  details    Json
+  updatetime DateTime? @db.Timestamp(6)
+  checkedin  DateTime? @db.Timestamp(6)
+  event_type String    @db.VarChar
+
+  @@id([details, event_type], map: "event_ukey")
+  @@index([details], map: "reg_idx")
+}
+
+/// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by Prisma Client.
+model registrants_staging {
+  fname           String  @db.VarChar(50)
+  lname           String  @db.VarChar(50)
+  phonenumber     String? @db.VarChar(50)
+  email_address   String? @unique @db.VarChar(50)
+  profile_picture String? @db.VarChar(1000)
+
+  @@ignore
+}
+
+model t_addresses {
+  id       BigInt  @id @default(autoincrement())
+  city     String? @db.VarChar(100)
+  state    String? @db.VarChar(50)
+  street   String? @db.VarChar(100)
+  zip      String? @db.VarChar(50)
+  location String? @db.VarChar(100)
+  primary  String? @db.VarChar(30)
+}
+
+/// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by Prisma Client.
+model t_agm_attendance {
+  people_id   Int?
+  checkintime DateTime @db.Timestamp(6)
+
+  @@ignore
+}
+
+/// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by Prisma Client.
+model t_attendance {
+  people_id   Int?
+  checkintime DateTime @db.Timestamp(6)
+
+  @@ignore
+}
+
+model t_emails {
+  id                  BigInt  @id @default(autoincrement())
+  address             String  @db.VarChar(100)
+  primary             String? @db.VarChar(100)
+  relations_person_id String  @db.VarChar(50)
+}
+
+model t_households {
+  id                   BigInt  @id @default(autoincrement())
+  member_count         Int?
+  relationships_people String? @db.VarChar(2000)
+}
+
+/// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by Prisma Client.
+model t_member_temp {
+  valid_date         String?
+  people_id          String?
+  fname              String?
+  lname              String?
+  fullname           String?
+  nickname           String?
+  membership         String?
+  chinese_membership String?
+  profile            String?
+  qrcode_image_url   String?
+
+  @@ignore
+}
+
+model t_people {
+  id         BigInt  @id @default(autoincrement())
+  first_name String  @db.VarChar(50)
+  given_name String? @db.VarChar(50)
+  last_name  String  @db.VarChar(50)
+  nick_name  String? @db.VarChar(50)
+  membership String? @db.VarChar(50)
+  status     String? @db.VarChar(50)
+  households String? @db.VarChar(500)
+  phone      String? @db.VarChar(100)
+}
+
+model t_people_w_qrcode {
+  valid_date         String?
+  people_id          BigInt    @id(map: "people_unique")
+  fname              String?
+  lname              String?
+  fullname           String?
+  nickname           String?
+  membership         String?
+  chinese_membership String?
+  profile            String?
+  updated            DateTime? @db.Timestamp(6)
+}
+
+/// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by Prisma Client.
+model t_pre_registrants {
+  pid            Int?
+  people_id      String?
+  lname          String?
+  fname          String?
+  profile        String?
+  household_id   String?
+  lastsync       DateTime? @db.Timestamp(6)
+  checkedin      DateTime? @db.Timestamp(6)
+  checkedin_flag Boolean?
+  event_cd       String?   @db.VarChar
+  vaccination    Boolean?
+  gifted         Boolean?
+
+  @@ignore
+}
+
+model visitors_master {
+  id             String   @id
+  firstname      String
+  lastname       String
+  phonenumber    String
+  created_at     String
+  last_signed_in String?
+  events         String
+  active         Boolean?
+  role           String?
+  image          String?
+}
