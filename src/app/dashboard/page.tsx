@@ -1,6 +1,7 @@
 // "use client";
 "use client";
-import { useSession } from "next-auth/react"
+import { Button } from "@/components/ui/button";
+import { signOut, useSession } from "next-auth/react"
 import { useRouter } from "next/navigation";
 
 
@@ -176,6 +177,7 @@ export default function Dashboard() {
     return (
         <div>
             Dashboard {session?.user?.firstname} {session?.user?.lastname} {session?.user?.phone}
+            <Button onClick={() => {signOut()}}>Sign Out</Button>
         </div>
     )
 }

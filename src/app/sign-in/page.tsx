@@ -31,7 +31,7 @@ export default function SignInPage() {
     e.preventDefault(); // Prevent default form submission
     const formData = new FormData(e.currentTarget);
     if (otpSent) {
-      await handleSignUp();
+      await handleSignIn();
     } else {
       await handleSubmit(formData);
     }
@@ -58,10 +58,11 @@ export default function SignInPage() {
     }
   };
 
-  const handleSignUp = async () => {
+  const handleSignIn = async () => {
     console.log("verifying otp");
 
     const res = await signIn("credentials", {
+        redirect: false,
         phoneNumber: phoneNumber,
         otpValue: otpValue,
     }) 
@@ -89,11 +90,7 @@ export default function SignInPage() {
           <h1 className="sm:text-xl text-lg font-semibold">Sign In</h1>
           <form
             className="flex flex-col gap-4"
-            action={async (formData) => {
-              if (otpSent) {
-                console.log("verifying otp");
-              }
-            }}
+            onSubmit={handleFormSubmit}
           >
             {!otpSent && (
               <div className="flex flex-col gap-6">
