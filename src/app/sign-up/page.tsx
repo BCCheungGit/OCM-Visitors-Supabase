@@ -18,7 +18,8 @@ import Link from "next/link";
 
 import { PhoneInput } from "../../components/ui/phoneinput";
 import { TopNav } from "../_components/topnav";
-import { checkVerification, createVerification } from "@/server/actions";
+import { createVerification, signUp } from "@/server/actions";
+import { signIn } from "next-auth/react";
 
 export default function SignUpPage() {
   const router = useRouter();
@@ -69,21 +70,26 @@ const handleFormSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
 
   const handleSignUp = async () => {
     console.log("verifying otp");
+      
+    try {
+        await signUp(phoneNumber, otpValue, {firstname: firstName, lastname: lastName, phone: phoneNumber});
 
-    const res = await checkVerification(phoneNumber, otpValue, {firstname: firstName, lastname: lastName, phone: phoneNumber});
-    console.log(res);
-    if (typeof res === 'object' && res.error) {
-      toast({
-        title: "Verification Error",
-        description: res.error,
-        variant: "destructive",
-      });
-    } else {
-      toast({
-        title: "Phone Number Verified",
-        description: "You have successfully verified your phone number.",
-      });
-    }
+        await signIn("credentials", {
+            redirect: false,
+            phoneNumber: phoneNumber,
+            otpValue: otpValue,
+            signup: true,
+        }) 
+        router.push("/dashboard");
+      } catch (e) {
+        console.error(e);
+        toast({
+          title: "Sign Up Error",
+          description: "An error occurred while signing up.",
+          variant: "destructive",
+        });
+      } 
+
   };
 
   return (

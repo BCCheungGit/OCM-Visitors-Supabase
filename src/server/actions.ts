@@ -7,11 +7,13 @@ import twilio from 'twilio';
 
 import { v4 as uuidv4 } from 'uuid';
 
+
 const accountSid = process.env.TWILIO_ACCOUNT_SID;
 const authToken = process.env.TWILIO_AUTH_TOKEN;
 
 const service = process.env.TWILIO_SERVICE_SID || '';
 
+const client = twilio(accountSid, authToken);
 
 
 
@@ -34,20 +36,28 @@ export async function createVerification(phone: string) {
 
 
 
-export async function checkVerification(phone: string, code: string, formInfo: any) {
+export async function signUp(phone: string, code: string, formInfo: any) {
     if (!phone || !code) {
         return { error: 'Phone number and code are required' }
     }
-    const client = twilio(accountSid, authToken);
     const verificationCheck = await client.verify.v2
         .services(service)
         .verificationChecks.create({
             to: phone,
             code: code,
         });
-    const prisma = new PrismaClient();
-    if (verificationCheck.status === 'approved') {
+
+    if (verificationCheck.status == 'approved') {
+        const prisma = new PrismaClient();
         const newid = uuidv4();
+        const user = await prisma.visitors_master.findFirst({
+            where: {
+                phonenumber: phone,
+            },
+        })
+        if (user) {
+            return { error: 'User already exists' }
+        }
         const res = await prisma.visitors_master.create({
             data: {
                 id: newid,
@@ -63,9 +73,8 @@ export async function checkVerification(phone: string, code: string, formInfo: a
         })
         await prisma.$disconnect();
         return JSON.stringify({ res });
-    }
-    else {
-        return { error: 'Invalid code' }
+    } else {
+        return { error: 'Invalid OTP' }
     }
 
 }
