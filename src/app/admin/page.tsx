@@ -1,5 +1,11 @@
 
-
+export default function Admin() {
+  return (
+    <div>
+        admin page
+    </div>
+  )
+}
 // import { User } from "@supabase/supabase-js";
 
 // import { createClient } from "../../../utils/supabase/server";

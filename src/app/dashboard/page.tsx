@@ -1,9 +1,10 @@
 // "use client";
 "use client";
 import { Button } from "@/components/ui/button";
-import { signOut, useSession } from "next-auth/react"
+import { checkImage } from "@/server/actions";
+import { signOut, useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
-
+import { useCallback, useEffect, useState } from "react";
 
 // import { useCallback, useEffect, useRef, useState } from "react";
 
@@ -18,44 +19,37 @@ import { useRouter } from "next/navigation";
 // // import { updateImage } from "./actions";
 // import Image from "next/image";
 
-
-
-
 // function CameraComponent({user, onImageUpload}: {user: User, onImageUpload: () => void}) {
 //     const isMobile = window.innerWidth < 768;
 //     const width = isMobile ? 400 : 300;
 //     const height = isMobile ? 300: 400;
-//     console.log("mobile: ", isMobile)   
+//     console.log("mobile: ", isMobile)
 //     const videoConstraints = {
 //       width: width,
 //       height: height,
 //       facingMode: "user",
 //     };
-    
+
 //     const [isCaptureEnable, setCaptureEnable] = useState<boolean>(false);
 //     const webcamRef = useRef<Webcam>(null);
 //     const [url, setUrl] = useState<string | null>(null);
-    
+
 //     const capture = useCallback(() => {
 //       const imageSrc = webcamRef.current?.getScreenshot({width: isMobile ? height : width, height: isMobile ? width : height});
 //       if (imageSrc) {
 //         setUrl(imageSrc);
 //         console.log(imageSrc);
-    
+
 //         setCaptureEnable(false);
 //         console.log(imageSrc);
 //       }
 //     }, [webcamRef, setUrl]);
 
-
-
-    
 //     return (
 //         <div className="flex flex-col items-center justify-center gap-4">
 //         <div>
 //             Welcome, {user.user_metadata.first_name} {user.user_metadata.last_name}
 //         </div>
-        
 
 //         {!url && (
 //             <>
@@ -73,7 +67,6 @@ import { useRouter } from "next/navigation";
 //             </div>
 //             </>
 //         )}
-
 
 //         {isCaptureEnable && (
 //             <>
@@ -102,34 +95,24 @@ import { useRouter } from "next/navigation";
 //                 </div>
 //                 <img src={url} alt="captured" />
 //                 </>
-                
+
 //                 )}
 //         </div>
 //     )
 // }
 
-
-
-
-
-
 // export default function Dashboard() {
 
 //     const router = useRouter();
 
-
-
-    
 //     const [currentUser, setCurrentUser] = useState<User | null>(null);
 //     const [hasImage, setHasImage] = useState<boolean>(false);
-
-
 
 //     const handleImageUpload = useCallback(() => {
 //         setHasImage(true);
 //         // checkImage();
 //       }, []);
-      
+
 //     // const checkImage = useCallback(async () => {
 //     //     const { data, error } = await supabaseClient.from('profiles').select('image').eq('id', currentUser?.id).single();
 //     //     if (error) {
@@ -140,7 +123,6 @@ import { useRouter } from "next/navigation";
 //     //       router.push('/dashboard/print');
 //     //     }
 //     //   }, [currentUser, supabaseClient]);
-
 
 //     //   useEffect(() => {
 //     //     if (currentUser) {
@@ -162,22 +144,46 @@ import { useRouter } from "next/navigation";
 //         )
 //     }
 
-
 // }
 
 export default function Dashboard() {
-    const { data: session, status} = useSession();
-    const router = useRouter();
-    if (status === 'loading') {
-        return <div>Loading...</div>
-    }
-    if (!session) {
-        console.log("no session");
-    }
-    return (
-        <div>
-            Dashboard {session?.user?.firstname} {session?.user?.lastname} {session?.user?.phone}
-            <Button onClick={() => {signOut()}}>Sign Out</Button>
-        </div>
-    )
+  const { data: session, status } = useSession();
+  const [imageStatus, setImageStatus] = useState<boolean>(false);
+  const router = useRouter();
+  if (status === "loading") {
+    return <div>Loading...</div>;
+  }
+  if (!session) {
+    router.push("/sign-up")
+  }
+
+//   useEffect(() => {
+//     const getImage = async () => {
+//       if (!session) {
+//         return null;
+//       }
+//       try {
+//         const image = await checkImage(session.user.id);
+//         setImageStatus(image);
+//       } catch (error: any) {
+//         console.error(error);
+//       }
+//     };
+//     getImage();
+//   }, []);
+
+  return (
+    <div>
+      Dashboard 
+      {session?.user?.firstname} {session?.user?.lastname}{" "}
+      {session?.user?.phone}
+      <Button
+        onClick={() => {
+          signOut();
+        }}
+      >
+        Sign Out
+      </Button>
+    </div>
+  );
 }

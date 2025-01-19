@@ -32,6 +32,23 @@ export async function createVerification(phone: string) {
 }
 
 
+export async function checkImage(uuid: string) {
+    const prisma = new PrismaClient();
+    const user = await prisma.visitors_master.findFirst({
+        where: {
+            id: uuid
+        }
+    })
+    await prisma.$disconnect();
+    if (!user) {
+        return false 
+    } 
+    if (user.image) {
+        return true;
+    }
+    return false;
+}
+
 
 
 

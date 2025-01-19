@@ -55,6 +55,16 @@ export const authOptions: NextAuthOptions = {
                         if (!user) {
                             throw new Error('User not found');
                         }
+                        user.last_signed_in = new Date().toISOString();
+                        await prisma.visitors_master.update({
+                            where: {
+                                id: user.id,
+                            },
+                            data: {
+                                last_signed_in: user.last_signed_in,
+                            },
+                        });
+                        await prisma.$disconnect();
                         return { id: user.id, firstname: user.firstname, lastname: user.lastname, phone: user.phonenumber, image: user.image || '', created_at: user.created_at, last_signed_in: user.last_signed_in || '', events: user.events, active: user.active ?? false, role: user.role || '' } as any;
                     }
                     else {
