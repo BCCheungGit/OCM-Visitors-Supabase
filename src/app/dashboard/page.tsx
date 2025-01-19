@@ -94,22 +94,22 @@ import { Session } from "next-auth";
 //         // checkImage();
 //       }, []);
 
-//     // const checkImage = useCallback(async () => {
-//     //     const { data, error } = await supabaseClient.from('profiles').select('image').eq('id', currentUser?.id).single();
-//     //     if (error) {
-//     //       console.error('Error fetching image', error);
-//     //     }
-//     //     if (data?.image !== null) {
-//     //       setHasImage(true);
-//     //       router.push('/dashboard/print');
-//     //     }
-//     //   }, [currentUser, supabaseClient]);
+    // const checkImage = useCallback(async () => {
+    //     const { data, error } = await supabaseClient.from('profiles').select('image').eq('id', currentUser?.id).single();
+    //     if (error) {
+    //       console.error('Error fetching image', error);
+    //     }
+    //     if (data?.image !== null) {
+    //       setHasImage(true);
+    //       router.push('/dashboard/print');
+    //     }
+    //   }, [currentUser, supabaseClient]);
 
-//     //   useEffect(() => {
-//     //     if (currentUser) {
-//     //       checkImage();
-//     //     }
-//     //   }, [currentUser, checkImage]);
+    //   useEffect(() => {
+    //     if (currentUser) {
+    //       checkImage();
+    //     }
+    //   }, [currentUser, checkImage]);
 
 //     if (!currentUser) {
 //         return <div>Loading...</div>
@@ -246,7 +246,7 @@ export default function Dashboard() {
       }
     };
     getImageStatus();
-  }, [session?.user.image]);
+  }, [imageStatus, session, session?.user, session?.user.image]);
 
   const handleImageUpload = useCallback(() => {
     setImageStatus(true);
