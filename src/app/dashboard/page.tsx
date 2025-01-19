@@ -1,7 +1,7 @@
 // "use client";
 "use client";
 import { Button } from "@/components/ui/button";
-import { checkImage } from "@/server/actions";
+import { checkImage, updateImage } from "@/server/actions";
 import { signOut, useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import { useCallback, useEffect, useState, useRef } from "react";
@@ -127,7 +127,13 @@ import { Session } from "next-auth";
 
 // }
 
-function CameraComponent({session}: {session: Session | null}) {
+function CameraComponent({
+  session,
+  onImageUpload,
+}: {
+  session: Session | null;
+  onImageUpload: () => void;
+}) {
   const isMobile = window.innerWidth < 768;
   const width = isMobile ? 400 : 300;
   const height = isMobile ? 300 : 400;
@@ -158,50 +164,65 @@ function CameraComponent({session}: {session: Session | null}) {
 
   return (
     <div className="flex flex-col items-center justify-center gap-4">
-        <div>
-            Welcome, {session?.user?.firstname} {session?.user?.lastname}
-        </div>
-        {!url && (
-            <>
-                <div className="flex flex-row gap-4">
-                    <Button onClick={() => {
-                        if (isCaptureEnable) {
-                            setCaptureEnable(false);
-                            setUrl(null);
-                        }
-                        else {
-                            setCaptureEnable(true);
-                        }
-                    }}>{isCaptureEnable ? "Close Camera" : "Open Camera"} </Button>
-                    {isCaptureEnable && <Button onClick={capture}>Capture</Button>}
-                </div>
-            </>
-        )}
-        {isCaptureEnable && (
-            <>
-                <Webcam
-                    audio={false}
-                    ref={webcamRef}
-                    screenshotFormat="image/jpeg"
-                    videoConstraints={videoConstraints}
-                    mirrored={true}
-                />
-            </>
-        )}
-        {url && (
-            <>
-                <div className="flex flex-row justify-center w-full gap-4">
-                    <Button onClick={() => {setUrl(null)}} className="w-fit">Delete</Button>
-                    <form action={async (formData) => {
-                        
-                    }}>
-                        <input name="image" defaultValue={url} hidden />
-                        <Button className="w-fit" type="submit">Upload Image</Button>
-                    </form>
-                </div>
-                <img src={url} alt="captured" />
-            </>
-        )}
+      <div>
+        Welcome, {session?.user?.firstname} {session?.user?.lastname}
+      </div>
+      {!url && (
+        <>
+          <div className="flex flex-row gap-4">
+            <Button
+              onClick={() => {
+                if (isCaptureEnable) {
+                  setCaptureEnable(false);
+                  setUrl(null);
+                } else {
+                  setCaptureEnable(true);
+                }
+              }}
+            >
+              {isCaptureEnable ? "Close Camera" : "Open Camera"}{" "}
+            </Button>
+            {isCaptureEnable && <Button onClick={capture}>Capture</Button>}
+          </div>
+        </>
+      )}
+      {isCaptureEnable && (
+        <>
+          <Webcam
+            audio={false}
+            ref={webcamRef}
+            screenshotFormat="image/jpeg"
+            videoConstraints={videoConstraints}
+            mirrored={true}
+          />
+        </>
+      )}
+      {url && (
+        <>
+          <div className="flex flex-row justify-center w-full gap-4">
+            <Button
+              onClick={() => {
+                setUrl(null);
+              }}
+              className="w-fit"
+            >
+              Delete
+            </Button>
+            <form
+              action={async (formData) => {
+                await updateImage(session?.user.id, formData.get("image") as string); 
+                onImageUpload();
+              }}
+            >
+              <input name="image" defaultValue={url} hidden />
+              <Button className="w-fit" type="submit">
+                Upload Image
+              </Button>
+            </form>
+          </div>
+          <img src={url} alt="captured" />
+        </>
+      )}
     </div>
   );
 }
@@ -221,6 +242,10 @@ export default function Dashboard() {
     getImageStatus();
   }, [session?.user.image]);
 
+  const handleImageUpload = useCallback(() => {
+    setImageStatus(true);
+  }, []);
+
   if (status === "loading") {
     return (
       <div>
@@ -233,11 +258,11 @@ export default function Dashboard() {
   }
 
   return (
-<div>
-    <TopNav />
-    <div className="min-w-screen flex flex-col gap-4 justify-center items-center h-full mt-10">
-        <CameraComponent session={session} />
+    <div>
+      <TopNav />
+      <div className="min-w-screen flex flex-col gap-4 justify-center items-center h-full mt-10">
+        <CameraComponent session={session} onImageUpload={handleImageUpload} />
+      </div>
     </div>
-</div>
   );
 }

@@ -52,6 +52,30 @@ export async function checkImage(uuid: string) {
 }
 
 
+export async function updateImage(uuid: string | undefined, image: string) {
+    const prisma = new PrismaClient();
+    const user = await prisma.visitors_master.findFirst({
+        where: {
+            id: uuid
+        }
+    })
+    if (!user) {
+        return {error: 'User not found'};
+
+    }
+    await prisma.visitors_master.update({
+        where: {
+            id: uuid
+        },
+        data: {
+            image: image
+        }
+    })
+    await prisma.$disconnect();
+    return JSON.stringify({success: 'Image updated'});
+}
+
+
 
 
 
