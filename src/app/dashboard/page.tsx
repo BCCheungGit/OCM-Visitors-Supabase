@@ -144,8 +144,8 @@ function CameraComponent({session}: {session: Session | null}) {
 
   const capture = useCallback(() => {
     const imageSrc = webcamRef.current?.getScreenshot({
-      width: width,
-      height: height,
+      width: isMobile ? height : width,
+      height: isMobile ? width : height,
     });
     if (imageSrc) {
       setUrl(imageSrc);
