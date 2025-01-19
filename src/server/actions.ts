@@ -39,11 +39,13 @@ export async function checkImage(uuid: string) {
             id: uuid
         }
     })
+    console.log(user);
     await prisma.$disconnect();
     if (!user) {
         return false 
     } 
     if (user.image) {
+        console.log(user.image);
         return true;
     }
     return false;

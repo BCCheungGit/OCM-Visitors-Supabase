@@ -150,33 +150,35 @@ export default function Dashboard() {
   const { data: session, status } = useSession();
   const [imageStatus, setImageStatus] = useState<boolean>(false);
   const router = useRouter();
+
+  useEffect(() => {
+    const getImageStatus = async () => {
+        if (session?.user?.id) {
+          const result = await checkImage(session.user.id);
+          setImageStatus(result);
+        }
+    } 
+    getImageStatus();
+  }, [session?.user.image]);
+
+
   if (status === "loading") {
-    return <div>Loading...</div>;
+    return (
+        <div>
+            <p>Loading...</p>
+        </div>
+    );
   }
   if (!session) {
     router.push("/sign-up")
   }
-
-//   useEffect(() => {
-//     const getImage = async () => {
-//       if (!session) {
-//         return null;
-//       }
-//       try {
-//         const image = await checkImage(session.user.id);
-//         setImageStatus(image);
-//       } catch (error: any) {
-//         console.error(error);
-//       }
-//     };
-//     getImage();
-//   }, []);
 
   return (
     <div>
       Dashboard 
       {session?.user?.firstname} {session?.user?.lastname}{" "}
       {session?.user?.phone}
+      {imageStatus ? "Image Uploaded" : "Image Not Uploaded"}
       <Button
         onClick={() => {
           signOut();
