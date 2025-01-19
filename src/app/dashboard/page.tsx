@@ -210,7 +210,10 @@ function CameraComponent({
             </Button>
             <form
               action={async (formData) => {
-                await updateImage(session?.user.id, formData.get("image") as string); 
+                await updateImage(
+                  session?.user.id,
+                  formData.get("image") as string
+                );
                 onImageUpload();
               }}
             >
@@ -236,6 +239,9 @@ export default function Dashboard() {
     const getImageStatus = async () => {
       if (session?.user?.id) {
         const result = await checkImage(session.user.id);
+        if (result || imageStatus) {
+          router.push("/dashboard/print");
+        }
         setImageStatus(result);
       }
     };
