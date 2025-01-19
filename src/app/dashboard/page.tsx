@@ -129,8 +129,8 @@ import { Session } from "next-auth";
 
 function CameraComponent({session}: {session: Session | null}) {
   const isMobile = window.innerWidth < 768;
-  const width = 300;
-  const height = 400;
+  const width = isMobile ? 400 : 300;
+  const height = isMobile ? 300 : 400;
   console.log("mobile: ", isMobile);
   const videoConstraints = {
     width: width,
